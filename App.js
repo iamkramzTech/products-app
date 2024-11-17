@@ -10,8 +10,8 @@ export default function App() {
   //   Authorization: apiKey,
   // };
   //URL API EndPoints
-  const API_URL = "https://localhost:7113/api/products"
-  //const API_URL = "https://192.168.254.121:7113/api/";
+  const API_URL = 'https://dummyjson.com/products';
+  //const API_URL = "http://192.168.254.154:7113/api/products";
  
   // const api = axios.create({
   //  baseURL:'https://192.168.254.121:7113/api'
@@ -19,37 +19,21 @@ export default function App() {
   // })
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    axios.get("https://localhost:7113/api/products").then((response) => {
-      setProducts(response.data);
-    });
-  }, [products]);
+  
   // useEffect(() => {
-  //   fetchData();
-  // }, [products]);
-
-  // const fetchData = async () => {
-
-  //   try {
-  //     // const response = await api.get('/products',//{
-  //     // //   method:"GET",
-  //     // //   headers:{
-  //     // //     "Content-Type":"application/json",
-  //     // //   },
-  //     // // });
-  //     // );
-  //     const response = await axios.get(API_URL);
+  //   axios.get("https://192.168.254.154:7113/api/products").then((response) => {
   //     setProducts(response.data);
-  //     console.log(response.data);
-      
-  //   }
-  //   catch(error)
-  //   {
-  //     console.error(`Error Fetching Data: ${error}`);
-      
-  //   }
-  // }
-  console.log(products);
+  //   });
+  // }, []);
+
+  useEffect(()=>{
+    axios.get(API_URL).then((response)=>{
+        setProducts(response.data.products);
+    });
+
+  },[]);
+
+ //console.log(products);
   
   return (
     <View style={styles.container}>
@@ -57,9 +41,13 @@ export default function App() {
       <FlatList
         data={products}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
+        renderItem={({ item: product }) => (
           <View style={styles.item}>
-            <Text>{item.name}</Text>
+             <Text>{product.name}</Text>
+            <Text>{product.title}</Text>
+            
+            <Text>$ {product.price}</Text>
+            {/* <Text>{product.description}</Text> */}
           </View>
         )}
       />
